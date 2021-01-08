@@ -1,0 +1,87 @@
+salida = '_________'
+x = "X"
+o = "O"
+
+configuraciones =  [salida[0:3], salida[3:6], salida[6:9], salida[::3],
+                   salida[1::3], salida[2::3], salida[2:7:2], salida[::4]]
+# a[0:3] es la primera fila
+# a[3:6] es la segunda fila
+# a[6:9] es la tercera fila
+# a[::3] es la primera columna
+# a[1::3] es la segunda columna
+# a[2::3] es la tercera columna
+# a[2:7:2] es la diagonal (/)
+# a[::4] es la diagonal (/)
+
+print("""---------
+|       |
+|       |
+|       |
+---------""")
+windraws = False
+while windraws == False:
+
+    if ['X', 'X', 'X'] not in configuraciones and ['O', 'O', 'O'] not in configuraciones and salida.count(x) + salida.count(o) < 9:
+
+        coord = input('Enter the coordinates: ')
+
+        coordins = coord.split()  # lista con coordenadas
+        numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+        indexes = ['1', '2', '3']
+
+        if coordins[0] not in numeros \
+                and coordins[1] not in numeros:  # si no son numeros
+            print('You should enter numbers!')
+        elif coordins[0] not in indexes or coordins[1] not in indexes:  # si no son numeros del 1 al 3
+            print('Coordinates should be from 1 to 3!')
+        else:
+            for i in range(4):
+                for j in range(4):
+                    if coord == '{} {}'.format(i, j):
+                        if i == 1:
+                            if j == 1:
+                                position = 0
+                            elif j == 2:
+                                position = 1
+                            elif j == 3:
+                                position = 2
+                        elif i == 2:
+                            if j == 1:
+                                position = 3
+                            elif j == 2:
+                                position = 4
+                            elif j == 3:
+                                position = 5
+                        elif i == 3:
+                            if j == 1:
+                                position = 6
+                            elif j == 2:
+                                position = 7
+                            elif j == 3:
+                                position = 8
+
+                        if salida[position] == '_':
+                            salida = list(salida)
+                            salida[position] = x
+                            configuraciones = [salida[0:3], salida[3:6], salida[6:9], salida[::3],
+                                               salida[1::3], salida[2::3], salida[2:7:2], salida[::4]]
+                            print("""---------
+| {} {} {} |
+| {} {} {} |
+| {} {} {} |
+---------""".format(salida[0], salida[1], salida[2],
+                            salida[3], salida[4], salida[5],
+                            salida[6], salida[7], salida[8]))
+                            
+                        else:
+                            print('This cell is occupied! Choose another one!')
+
+    elif ['X', 'X', 'X'] not in configuraciones and ['O', 'O', 'O'] not in configuraciones and salida.count(x) + salida.count(o) == 9:
+        print("Draw")
+        windraws = True
+    elif ['X', 'X', 'X'] in configuraciones:
+        print("X wins")
+        windraws = True
+    elif ['O', 'O', 'O'] in configuraciones:
+        print("O wins")
+        windraws = True
